@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.constant.CodeConstant;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.system.util.JwtUtil;
@@ -90,10 +91,25 @@ public class LoginController {
 		Result<JSONObject> result = new Result<JSONObject>();
 		String username = sysLoginModel.getUsername();
 		String password = sysLoginModel.getPassword();
+    String captcha = sysLoginModel.getCaptcha();
 		//update-begin--Author:scott  Date:20190805 for：暂时注释掉密码加密逻辑，有点问题
 		//前端密码加密，后端进行密码解密
 		//password = AesEncryptUtil.desEncrypt(sysLoginModel.getPassword().replaceAll("%2B", "\\+")).trim();//密码解密
 		//update-begin--Author:scott  Date:20190805 for：暂时注释掉密码加密逻辑，有点问题
+
+    String cacheCaptcha = kaptchUtils.get();
+    if (oConvertUtils.isEmpty(cacheCaptcha)) {
+      result.setCode(CodeConstant.CAPTCHA_EXPIRE);
+      result.setSuccess(false);
+      result.setMessage("验证码失效");
+      return result;
+    }
+    if (!captcha.equals(cacheCaptcha)) {
+      result.setCode(CodeConstant.CAPTCHA_ERROR);
+      result.setSuccess(false);
+      result.setMessage("验证码错误");
+      return result;
+    }
 
 		//1. 校验用户是否有效
 		SysUser sysUser = sysUserService.getUserByName(username);
