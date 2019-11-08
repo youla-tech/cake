@@ -63,6 +63,8 @@ public class LoginController {
 	private ISysLogService logService;
 	@Autowired
     private RedisUtil redisUtil;
+  @Autowired
+  private KaptchUtils kaptchUtils;
 	@Autowired
     private ISysDepartService sysDepartService;
 
@@ -75,9 +77,10 @@ public class LoginController {
     response.setHeader("Cache-Control", "no-store, no-cache");
     response.setContentType("image/jpg");
     String text = producer.createText();
-    KaptchUtils.set(text);
+    kaptchUtils.set(text);
     BufferedImage bi = producer.createImage(text);
     ServletOutputStream out = response.getOutputStream();
+    System.out.println("key --- " + kaptchUtils.get());
     ImageIO.write(bi, "jpg", out);
   }
 
