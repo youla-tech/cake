@@ -1,5 +1,7 @@
 package org.jeecg.modules.system.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -7,20 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.system.vo.LoginUser;
-import org.jeecg.common.util.DySmsEnum;
-import org.jeecg.common.util.DySmsHelper;
-import org.jeecg.common.util.PasswordUtil;
-import org.jeecg.common.util.RedisUtil;
-import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.common.util.*;
 import org.jeecg.common.util.encryption.EncryptedString;
 import org.jeecg.modules.shiro.vo.DefContants;
 import org.jeecg.modules.system.entity.SysDepart;
@@ -65,6 +66,21 @@ public class LoginController {
 	@Autowired
     private ISysDepartService sysDepartService;
 
+  @Autowired
+  private Producer producer;
+
+  @GetMapping("/captcha.jpg")
+  @ApiOperation("获取验证码")
+  public void captcha(HttpServletResponse response) throws IOException {
+    response.setHeader("Cache-Control", "no-store, no-cache");
+    response.setContentType("image/jpg");
+    String text = producer.createText();
+    KaptchUtils.set(text);
+    BufferedImage bi = producer.createImage(text);
+    ServletOutputStream out = response.getOutputStream();
+    ImageIO.write(bi, "jpg", out);
+  }
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ApiOperation("登录接口")
 	public Result<JSONObject> login(@RequestBody SysLoginModel sysLoginModel) throws Exception {
@@ -82,7 +98,7 @@ public class LoginController {
 		if(!result.isSuccess()) {
 			return result;
 		}
-		
+
 		//2. 校验用户名或密码是否正确
 		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
 		String syspassword = sysUser.getPassword();
@@ -90,14 +106,14 @@ public class LoginController {
 			result.error500("用户名或密码错误");
 			return result;
 		}
-				
+
 		//用户登录信息
 		userInfo(sysUser, result);
 		sysBaseAPI.addLog("用户名: " + username + ",登录成功！", CommonConstant.LOG_TYPE_1, null);
 
 		return result;
 	}
-	
+
 	/**
 	 * 退出登录
 	 * @param request
@@ -126,7 +142,7 @@ public class LoginController {
 	    	return Result.error("无效的token");
 	    }
 	}
-	
+
 	/**
 	 * 获取访问量
 	 * @return
@@ -157,7 +173,7 @@ public class LoginController {
 		result.success("登录成功");
 		return result;
 	}
-	
+
 	/**
 	 * 获取访问量
 	 * @return
@@ -178,8 +194,8 @@ public class LoginController {
 		result.setResult(oConvertUtils.toLowerCasePageList(list));
 		return result;
 	}
-	
-	
+
+
 	/**
 	 * 登陆成功选择用户当前部门
 	 * @param user
@@ -204,7 +220,7 @@ public class LoginController {
 
 	/**
 	 * 短信登录接口
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 */
@@ -213,7 +229,7 @@ public class LoginController {
 		Result<String> result = new Result<String>();
 		String mobile = jsonObject.get("mobile").toString();
 		String smsmode=jsonObject.get("smsmode").toString();
-		log.info(mobile);	
+		log.info(mobile);
 		Object object = redisUtil.get(mobile);
 		if (object != null) {
 			result.setMessage("验证码10分钟内，仍然有效！");
@@ -243,7 +259,7 @@ public class LoginController {
 				if(!result.isSuccess()) {
 					return result;
 				}
-				
+
 				/**
 				 * smsmode 短信模板方式  0 .登录模板、1.注册模板、2.忘记密码模板
 				 */
@@ -275,11 +291,11 @@ public class LoginController {
 		}
 		return result;
 	}
-	
+
 
 	/**
 	 * 手机号登录接口
-	 * 
+	 *
 	 * @param jsonObject
 	 * @return
 	 */
@@ -287,14 +303,14 @@ public class LoginController {
 	public Result<JSONObject> phoneLogin(@RequestBody JSONObject jsonObject) {
 		Result<JSONObject> result = new Result<JSONObject>();
 		String phone = jsonObject.getString("mobile");
-		
+
 		//校验用户有效性
 		SysUser sysUser = sysUserService.getUserByPhone(phone);
 		result = sysUserService.checkUserIsEffective(sysUser);
 		if(!result.isSuccess()) {
 			return result;
 		}
-		
+
 		String smscode = jsonObject.getString("captcha");
 		Object code = redisUtil.get(phone);
 		if (!smscode.equals(code)) {
