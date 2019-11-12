@@ -6,4 +6,5 @@ package org.jeecg.common.constant;
 public interface CodeConstant {
   public static final Integer CAPTCHA_EXPIRE = 6000;
   public static final Integer CAPTCHA_ERROR = 60001;
+  public static final Integer CAPTCHA_EMPTY = 60002;
 }

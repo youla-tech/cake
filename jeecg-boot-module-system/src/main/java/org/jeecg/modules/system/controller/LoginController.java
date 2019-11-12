@@ -96,7 +96,12 @@ public class LoginController {
 		//前端密码加密，后端进行密码解密
 		//password = AesEncryptUtil.desEncrypt(sysLoginModel.getPassword().replaceAll("%2B", "\\+")).trim();//密码解密
 		//update-begin--Author:scott  Date:20190805 for：暂时注释掉密码加密逻辑，有点问题
-
+    if (oConvertUtils.isEmpty(captcha)) {
+      result.setCode(CodeConstant.CAPTCHA_EMPTY);
+      result.setSuccess(false);
+      result.setMessage("验证码不能为空");
+      return result;
+    }
     String cacheCaptcha = kaptchUtils.get();
     if (oConvertUtils.isEmpty(cacheCaptcha)) {
       result.setCode(CodeConstant.CAPTCHA_EXPIRE);
