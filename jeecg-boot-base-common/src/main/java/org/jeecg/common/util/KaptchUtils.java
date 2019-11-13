@@ -37,4 +37,11 @@ public class KaptchUtils {
     }
     return code;
   }
+  public void remove() {
+    try {
+      String ip = IPUtils.getIpAddr(SpringContextUtils.getHttpServletRequest());
+      redisUtil.del(AesEncryptUtil.encrypt(ip));
+    }catch (Exception e) {
+    }
+  }
 }

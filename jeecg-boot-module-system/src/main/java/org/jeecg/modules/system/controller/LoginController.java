@@ -161,6 +161,7 @@ public class LoginController {
 	    	//清空用户权限缓存：权限Perms和角色集合
 	    	redisUtil.del(CommonConstant.LOGIN_USER_CACHERULES_ROLE + username);
 	    	redisUtil.del(CommonConstant.LOGIN_USER_CACHERULES_PERMISSION + username);
+        kaptchUtils.remove();
 	    	return Result.ok("退出登录成功！");
 	    }else {
 	    	return Result.error("无效的token");
