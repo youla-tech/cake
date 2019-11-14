@@ -16,7 +16,7 @@ import java.net.UnknownHostException;
 public class JeecgApplication {
 
     public static void main(String[] args) throws UnknownHostException {
-        //System.setProperty("spring.devtools.restart.enabled", "true");
+//        System.setProperty("spring.devtools.restart.enabled", "true");
 
         ConfigurableApplicationContext application = SpringApplication.run(JeecgApplication.class, args);
         Environment env = application.getEnvironment();

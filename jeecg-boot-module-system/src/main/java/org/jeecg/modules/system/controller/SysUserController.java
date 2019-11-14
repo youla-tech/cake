@@ -23,6 +23,7 @@ import org.jeecg.common.system.api.ISysBaseAPI;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.system.vo.LoginUser;
+import org.jeecg.common.util.MD5Util;
 import org.jeecg.common.util.PasswordUtil;
 import org.jeecg.common.util.RedisUtil;
 import org.jeecg.common.util.oConvertUtils;
@@ -120,7 +121,8 @@ public class SysUserController {
 			user.setCreateTime(new Date());//设置创建时间
 			String salt = oConvertUtils.randomGen(8);
 			user.setSalt(salt);
-			String passwordEncode = PasswordUtil.encrypt(user.getUsername(), user.getPassword(), salt);
+      String passwordMd5Encode = MD5Util.MD5Encode(user.getPassword(), "");
+			String passwordEncode = PasswordUtil.encrypt(user.getUsername(), passwordMd5Encode, salt);
 			user.setPassword(passwordEncode);
 			user.setStatus(1);
 			user.setDelFlag("0");

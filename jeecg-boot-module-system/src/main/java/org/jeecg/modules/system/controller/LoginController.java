@@ -14,6 +14,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.date.SystemClock;
 import com.google.code.kaptcha.Producer;
 import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
@@ -72,7 +73,7 @@ public class LoginController {
   @Autowired
   private Producer producer;
 
-  @GetMapping("/captcha.jpg")
+  @GetMapping("/captcha")
   @ApiOperation("获取验证码")
   public void captcha(HttpServletResponse response) throws IOException {
     response.setHeader("Cache-Control", "no-store, no-cache");
@@ -124,7 +125,8 @@ public class LoginController {
 		}
 
 		//2. 校验用户名或密码是否正确
-		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
+    String passwordMd5Encode = MD5Util.MD5Encode(password, "");
+		String userpassword = PasswordUtil.encrypt(username, passwordMd5Encode, sysUser.getSalt());
 		String syspassword = sysUser.getPassword();
 		if (!syspassword.equals(userpassword)) {
 			result.error500("用户名或密码错误");

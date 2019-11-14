@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KaptchUtils {
   private static Logger logger = LoggerFactory.getLogger(IPUtils.class);
-  private static final int EXPIRE_TIME = 60 * 1000;
+  private static final int EXPIRE_TIME = 2 * 60 * 1000;
 
   @Autowired
   private RedisUtil redisUtil;
