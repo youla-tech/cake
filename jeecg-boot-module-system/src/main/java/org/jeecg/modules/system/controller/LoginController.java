@@ -2,12 +2,7 @@ package org.jeecg.modules.system.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -33,12 +28,7 @@ import org.jeecg.modules.system.service.ISysDepartService;
 import org.jeecg.modules.system.service.ISysLogService;
 import org.jeecg.modules.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
@@ -76,6 +66,7 @@ public class LoginController {
   @GetMapping("/captcha")
   @ApiOperation("获取验证码")
   public void captcha(HttpServletResponse response) throws IOException {
+
     response.setHeader("Cache-Control", "no-store, no-cache");
     response.setContentType("image/jpg");
     String text = producer.createText();

@@ -23,9 +23,9 @@ public class KaptchUtils {
       String key = AesEncryptUtil.encrypt(ip);
       redisUtil.set(key, code);
       redisUtil.expire(key, EXPIRE_TIME / 1000);
-      logger.info("kaptch key", key);
+      logger.info("kaptcha key", key);
     }catch(Exception e){
-      logger.info("kaptch err", e);
+      logger.info("kaptcha err", e);
     }
   }
   public String get(){
