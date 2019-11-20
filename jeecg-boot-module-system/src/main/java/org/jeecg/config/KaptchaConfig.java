@@ -18,8 +18,8 @@ public class KaptchaConfig {
     properties.put("kaptcha.border", "no");
     properties.put("kaptcha.textproducer.font.color", "black");
     properties.put("kaptcha.texproducer.char.space", "5");
-    properties.put("kaptcha.image.width", "136");
-    properties.put("kaptcha.image.height", "38");
+//    properties.put("kaptcha.image.width", "136");
+//    properties.put("kaptcha.image.height", "40");
     Config config = new Config(properties);
     DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
     defaultKaptcha.setConfig(config);

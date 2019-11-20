@@ -116,8 +116,9 @@ public class LoginController {
 		}
 
 		//2. 校验用户名或密码是否正确
-    String passwordMd5Encode = MD5Util.MD5Encode(password, "");
-		String userpassword = PasswordUtil.encrypt(username, passwordMd5Encode, sysUser.getSalt());
+//    String passwordMd5Encode = MD5Util.MD5Encode(password, "");
+//		System.out.println(" --- " + passwordMd5Encode);
+		String userpassword = PasswordUtil.encrypt(username, password, sysUser.getSalt());
 		String syspassword = sysUser.getPassword();
 		if (!syspassword.equals(userpassword)) {
 			result.error500("用户名或密码错误");
