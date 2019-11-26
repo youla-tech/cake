@@ -39,7 +39,7 @@ public class Swagger2Config implements WebMvcConfigurer {
 	/**
 	 *
 	 * 显示swagger-ui.html文档展示页，还必须注入swagger资源：
-	 * 
+	 *
 	 * @param registry
 	 */
 	@Override
@@ -54,20 +54,48 @@ public class Swagger2Config implements WebMvcConfigurer {
 	 *
 	 * @return Docket
 	 */
+//	@Bean
+//	public Docket createRestApi() {
+//		return new Docket(DocumentationType.SWAGGER_2)
+//				.apiInfo(apiInfo())
+//				.select()
+//				//此包路径下的类，才生成接口文档
+//				.apis(RequestHandlerSelectors.basePackage("org.jeecg.modules"))
+//				//加了ApiOperation注解的类，才生成接口文档
+//        .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+//				.paths(PathSelectors.any())
+//				.build()
+//				.securitySchemes(Collections.singletonList(securityScheme()));
+//				//.globalOperationParameters(setHeaderToken());
+//	}
 	@Bean
 	public Docket createRestApi() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.apiInfo(apiInfo())
-				.select()
-				//此包路径下的类，才生成接口文档
-				.apis(RequestHandlerSelectors.basePackage("org.jeecg.modules"))
-				//加了ApiOperation注解的类，才生成接口文档
-	            .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-				.paths(PathSelectors.any())
-				.build()
-				.securitySchemes(Collections.singletonList(securityScheme()));
-				//.globalOperationParameters(setHeaderToken());
-	}
+    return new Docket(DocumentationType.SWAGGER_2)
+      .apiInfo(apiInfo())
+      .groupName("system")
+      .select()
+      //此包路径下的类，才生成接口文档
+      .apis(RequestHandlerSelectors.basePackage("org.jeecg.modules.system"))
+      //加了ApiOperation注解的类，才生成接口文档
+      .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+      .paths(PathSelectors.any())
+      .build()
+      .securitySchemes(Collections.singletonList(securityScheme()));
+  }
+  @Bean
+  public Docket createWechatApi() {
+    return new Docket((DocumentationType.SWAGGER_2))
+      .apiInfo(apiInfo())
+      .groupName("wechat")
+      .select()
+      //此包路径下的类，才生成接口文档
+      .apis(RequestHandlerSelectors.basePackage("com.cake.modules.wechat"))
+      //加了ApiOperation注解的类，才生成接口文档
+      .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+      .paths(PathSelectors.any())
+      .build()
+      .securitySchemes(Collections.singletonList(securityScheme()));
+  }
 
 	/***
 	 * oauth2配置
@@ -99,16 +127,16 @@ public class Swagger2Config implements WebMvcConfigurer {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				// //大标题
-				.title("Jeecg-Boot 后台服务API接口文档")
+				.title("Cake Autumn 后台服务API接口文档")
 				// 版本号
 				.version("1.0")
 //				.termsOfServiceUrl("NO terms of service")
 				// 描述
 				.description("后台API接口")
 				// 作者
-				.contact("JEECG团队")
-                .license("The Apache License, Version 2.0")
-                .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+//				.contact("JEECG团队")
+//        .license("The Apache License, Version 2.0")
+//        .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
 				.build();
 	}
 
