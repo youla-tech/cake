@@ -12,7 +12,7 @@ import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
  *
  */
 @Configuration
-@MapperScan(value={"org.jeecg.modules.**.mapper*"})
+@MapperScan(value={"org.jeecg.modules.**.mapper*", "com.cake.modules.**.mapper*"})
 public class MybatisPlusConfig {
 
     /**
@@ -22,7 +22,7 @@ public class MybatisPlusConfig {
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
-    
+
 //    /**
 //     * mybatis-plus SQL执行效率插件【生产环境可以关闭】
 //     */
@@ -30,6 +30,6 @@ public class MybatisPlusConfig {
 //    public PerformanceInterceptor performanceInterceptor() {
 //        return new PerformanceInterceptor();
 //    }
-    
-   
+
+
 }
