@@ -37,6 +37,17 @@ public class MD5Util {
 		return resultString;
 	}
 
+  /**
+   * 验证加密串是否一致
+   * @param origin
+   * @param beVerified 代码验证字符串
+   * @param charsetname
+   * @return
+   */
+	public static Boolean verify(String origin, String beVerified, String charsetname) {
+    return MD5Encode(origin, charsetname).equals(beVerified);
+  }
+
 	private static final String hexDigits[] = { "0", "1", "2", "3", "4", "5",
 			"6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
