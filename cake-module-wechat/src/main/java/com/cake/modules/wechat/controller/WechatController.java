@@ -56,6 +56,10 @@ public class WechatController {
     return result;
   }
 
+  /**
+   * 开放平台，需要开发平台APPID和secret
+   * @return
+   */
   @GetMapping("/getQRCodeUrl")
   @ApiOperation(("获取微信登录二维码地址"))
   public Result<Object> getQRCodeUrl () {

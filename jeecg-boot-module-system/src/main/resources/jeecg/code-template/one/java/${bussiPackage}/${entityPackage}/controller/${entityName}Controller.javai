@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
 
  /**
  * @Description: ${tableVo.ftlDescription}
- * @Author: jeecg-boot
+ * @Author: eamiear
  * @Date:   ${.now?string["yyyy-MM-dd"]}
  * @Version: V1.0
  */
@@ -48,13 +48,13 @@ import io.swagger.annotations.ApiOperation;
 public class ${entityName}Controller {
 	@Autowired
 	private I${entityName}Service ${entityName?uncap_first}Service;
-	
+
 	/**
-	  * 分页列表查询
-	 * @param ${entityName?uncap_first}
-	 * @param pageNo
-	 * @param pageSize
-	 * @param req
+	 * 分页列表查询
+	 * @param ${entityName?uncap_first} ${entityName?uncap_first}实体类
+	 * @param pageNo    页码
+	 * @param pageSize  每页条数
+	 * @param req       request
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-分页列表查询")
@@ -72,10 +72,10 @@ public class ${entityName}Controller {
 		result.setResult(pageList);
 		return result;
 	}
-	
+
 	/**
-	  *   添加
-	 * @param ${entityName?uncap_first}
+	 * 添加
+	 * @param ${entityName?uncap_first} ${entityName?uncap_first}实体类
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-添加")
@@ -92,10 +92,10 @@ public class ${entityName}Controller {
 		}
 		return result;
 	}
-	
+
 	/**
-	  *  编辑
-	 * @param ${entityName?uncap_first}
+	 * 编辑
+	 * @param ${entityName?uncap_first} ${entityName?uncap_first}实体类
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-编辑")
@@ -113,13 +113,13 @@ public class ${entityName}Controller {
 				result.success("修改成功!");
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
-	  *   通过id删除
-	 * @param id
+	 * 通过id删除
+	 * @param id ${entityName?uncap_first} id
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-通过id删除")
@@ -134,10 +134,10 @@ public class ${entityName}Controller {
 		}
 		return Result.ok("删除成功!");
 	}
-	
+
 	/**
-	  *  批量删除
-	 * @param ids
+	 * 批量删除
+	 * @param ids id列表
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-批量删除")
@@ -153,10 +153,10 @@ public class ${entityName}Controller {
 		}
 		return result;
 	}
-	
+
 	/**
-	  * 通过id查询
-	 * @param id
+	 * 通过id查询
+	 * @param id ${entityName?uncap_first} id
 	 * @return
 	 */
 	@AutoLog(value = "${tableVo.ftlDescription}-通过id查询")
@@ -175,10 +175,10 @@ public class ${entityName}Controller {
 	}
 
   /**
-      * 导出excel
+   * 导出excel
    *
-   * @param request
-   * @param response
+   * @param request  HttpServletRequest
+   * @param response HttpServletResponse
    */
   @RequestMapping(value = "/exportXls")
   public ModelAndView exportXls(HttpServletRequest request, HttpServletResponse response) {
@@ -207,10 +207,10 @@ public class ${entityName}Controller {
   }
 
   /**
-      * 通过excel导入数据
+   * 通过excel导入数据
    *
-   * @param request
-   * @param response
+   * @param request  HttpServletRequest
+   * @param response HttpServletResponse
    * @return
    */
   @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
