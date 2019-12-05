@@ -11,9 +11,10 @@ import java.util.List;
  * Created by Kezai_Su on 2019/12/5.
  */
 @Data
-@PropertySource(value = "classpath:wechat.properties", ignoreResourceNotFound = true)
+//@PropertySource(value = "classpath:wechat.properties", ignoreResourceNotFound = true)
 @ConfigurationProperties(prefix = "wx.mp")
 public class WxMpProperties {
+
   private List<MpConfig> configs;
 
   @Data
