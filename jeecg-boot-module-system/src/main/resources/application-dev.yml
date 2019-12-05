@@ -146,3 +146,16 @@ jeecg :
 #cas单点登录
 cas:
   prefixUrl: http://cas.example.org:8443/cas
+wx:
+  mp:
+    configs:
+      - appId: wxbc01da96dcd8eae7
+        secret: 7b1aca5a25d43c4f0d6dde09655b208f
+        token: icake
+        aesKey: 1111
+      - appId: wxbc01da96dcd8eae7
+        secret: 7b1aca5a25d43c4f0d6dde09655b208f
+        token: icake
+        aesKey: 1111
+    redirectUrl: http://3af5835b.ngrok.io/jeecg-boot/wx/callback
+    csrfKey: Wechat_Cake_Qiu
