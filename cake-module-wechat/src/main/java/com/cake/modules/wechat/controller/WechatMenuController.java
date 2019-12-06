@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiOperation;
 @Slf4j
 @Api(tags="微信菜单")
 @RestController
-@RequestMapping("/wechat/wechatMenu")
+@RequestMapping("/wechat/wechatMenu/{appid}")
 public class WechatMenuController {
 	@Autowired
 	private IWechatMenuService wechatMenuService;
