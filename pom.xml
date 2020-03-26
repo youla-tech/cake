@@ -17,6 +17,7 @@
 		<module>jeecg-boot-base-common</module>
 		<module>jeecg-boot-module-system</module>
     <module>cake-module-wechat</module>
+    <module>cake-module-cms</module>
   </modules>
 
 	<distributionManagement>
