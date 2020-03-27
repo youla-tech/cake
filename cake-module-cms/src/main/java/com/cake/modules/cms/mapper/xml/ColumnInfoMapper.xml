@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cake.modules.cms.mapper.ColumnInfoMapper">
+
+  <select id="queryColumnInfo" resultType="com.cake.modules.cms.entity.ColumnInfo">
+    select * from  cmd_column_info t
+      where 1=1 and t.code like #{columnInfoVO.getCode()}
+      and t.name LIKE #{columnInfoVO.getName()}
+      AND t.level = #{columnInfoVO.getLevel()}
+      ORDER BY t.orderNo ASC
+  </select>
+
+  <select id="queryColumnInfoList" resultType="com.cake.modules.cms.entity.ColumnInfo">
+    select * from  cmd_column_info t
+    where 1=1 and t.deleteFlag = 0
+    <choose>
+      <when test="columnInfoVO != null and columnInfoVO.getIsRootColumnLike() != null and !columnInfoVO.getIsRootColumnLike() ">
+        <if test="columnInfoVO.getRootColumnId() != null and columnInfoVO.getRootColumnId() != ''">
+          and t.parent_id = #{columnInfoVO.getRootColumnId()}
+        </if>
+      </when>
+      <otherwise>
+        <if test="columnInfoVO.getRootColumnId() != null and columnInfoVO.getRootColumnId() != ''">
+          and t.path LIKE #{columnInfoVO.getRootColumnId()}
+        </if>
+      </otherwise>
+    </choose>
+    <choose>
+      <when test="columnInfoVO.getIsCodeLike() != null and columnInfoVO.getIsCodeLike().equals(false)">
+        AND t.code = #{columnInfoVO.getIsCodeLike()}
+      </when>
+      <otherwise>
+        AND t.code LIKE #{columnInfoVO.getIsCodeLike()}
+      </otherwise>
+    </choose>
+    <if test="columnInfoVO.getName() != null">
+      and t.name LIKE #{columnInfoVO.getName()}
+    </if>
+    <if test="columnInfoVO.getLevel() != null">
+      AND t.level = #{columnInfoVO.getLevel()}
+    </if>
+    ORDER BY t.orderNo ASC
+  </select>
+</mapper>
